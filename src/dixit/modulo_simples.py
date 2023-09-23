@@ -9,18 +9,26 @@ from build123d import (
     fillet,  # noqa: F401, E501
 )
 
+
 def vector_to_array(vector):
     return [vector.X, vector.Y, vector.Z]
 
 
-def align(object, ref = None, 
-          begin = "", center = "", end = "",
-          beginToCenter = "", beginToEnd = "", 
-          centerToBegin = "", centerToEnd = "",
-          endToBegin = "", endToCenter = "",
-          margins = [0, 0, 0], 
-          margin = 0):
-
+def align(
+    object,
+    ref=None,
+    begin="",
+    center="",
+    end="",
+    beginToCenter="",
+    beginToEnd="",
+    centerToBegin="",
+    centerToEnd="",
+    endToBegin="",
+    endToCenter="",
+    margins=[0, 0, 0],
+    margin=0,
+):
     # pontos do objeto (begin, end e center)
     bObj = vector_to_array(object.bounding_box().min)
     eObj = vector_to_array(object.bounding_box().max)
@@ -51,27 +59,26 @@ def align(object, ref = None,
     endToBegin = endToBegin.lower()
     endToCenter = endToCenter.lower()
 
-
     axes = ["x", "y", "z"]
     for i, axis in enumerate(axes):
         from_ = None
         to_ = None
-        
+
         # Which part of the object...
         if axis in begin or axis in beginToCenter or axis in beginToEnd:
             print("from begin: " + axis)
             from_ = bObj[i]
             deltas[i] = margins[i] + margin
-        
+
         if axis in centerToBegin or axis in center or axis in centerToEnd:
             print("from center: " + axis)
             from_ = cObj[i]
-        
+
         if axis in endToBegin or axis in endToCenter or axis in end:
             print("from end: " + axis)
             from_ = eObj[i]
             deltas[i] = -margins[i] - margin
-        
+
         # ...is aligned to which part of the ref
         if axis in begin or axis in centerToBegin or axis in endToBegin:
             print("to begin: " + axis)
@@ -82,11 +89,12 @@ def align(object, ref = None,
         if axis in beginToEnd or axis in centerToEnd or axis in end:
             print("to end: " + axis)
             to_ = eRef[i]
-        
+
         if from_ is not None and to_ is not None:
             deltas[i] = deltas[i] + to_ - from_
 
     return object.translate(Vector(deltas[0], deltas[1], deltas[2]))
+
 
 X, Y, Z = 0, 1, 2
 
@@ -94,11 +102,10 @@ d = {
     "module": [135, 90, 54],
     "wall": 3,
     "floor": 0.4,
-    "card": [126, 84, 36/100], 
+    "card": [126, 84, 36 / 100],
     "score": [118, 250, 6],
     "guess": [118, 76, 22],
     "token": [50, 64, 24],
-    
 }
 
 module = Box(*d["module"])
@@ -109,7 +116,7 @@ score_slot = Box(*d["score"])
 guess_slot = Box(*d["guess"])
 token_slot = Box(*d["token"])
 
-module  -= align(cards_slot, module, begin="x", end="z", margins=[d["wall"], 0, 0])
+module -= align(cards_slot, module, begin="x", end="z", margins=[d["wall"], 0, 0])
 module -= align(finger_slot, module, center="y", end="xz")
 
 module2 = module.copy()
@@ -119,7 +126,7 @@ module2 = align(module2, module, beginToEnd="y", margin=2)
 module3 = Box(*d["module"])
 module3 = align(module3, module2, beginToEnd="y", margin=2)
 module3 -= align(score_slot, module3, center="xy", end="z")
-guess_slot = align(guess_slot, module3, center="xy", end="z", margins=[0,0,d["score"][Z]])
+guess_slot = align(guess_slot, module3, center="xy", end="z", margins=[0, 0, d["score"][Z]])
 module3 -= guess_slot
 module3 -= align(finger_slot, guess_slot, begin="z", beginToEnd="x", center="y")
 module3 -= align(token_slot, guess_slot, endToBegin="z", begin="x", center="y", margins=[6, 0, 0])
@@ -131,7 +138,7 @@ module = fillet(module.edges().group_by(Axis.Z)[1].group_by(Axis.X)[3], 10)
 module2 = chamfer(module2.edges().group_by(Axis.Z)[-1], 1)
 module2 = fillet(module2.edges().group_by(Axis.Z)[1].group_by(Axis.X)[3], 10)
 
-fillet_edges = module3.edges().group_by(Axis.Z)[1] 
+fillet_edges = module3.edges().group_by(Axis.Z)[1]
 fillet_edges += module3.edges().group_by(Axis.Z)[3].group_by(Axis.X)[-2]
 
 module3 = fillet(fillet_edges, 10)

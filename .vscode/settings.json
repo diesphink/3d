@@ -1,4 +1,5 @@
 {
     "OcpCadViewer.view.ortho": false,
-    "OcpCadViewer.view.dark": true
+    "OcpCadViewer.view.dark": true,
+    "ruff.args": ["--ignore E501"]
 }
