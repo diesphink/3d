@@ -31,11 +31,12 @@ d = {
     "distance_between": 23.6,
 }
 
-space_x = d['distance_between']
-space_y = d['distance_between'] * sqrt(3)/2
-space_offset = d['distance_between']/2
+space_x = d["distance_between"]
+space_y = d["distance_between"] * sqrt(3) / 2
+space_offset = d["distance_between"] / 2
 
-def location_grid(pins_per_row = [1]):
+
+def location_grid(pins_per_row=[1]):
     loc = []
     for row, pins in enumerate(pins_per_row):
         for pin in range(pins):

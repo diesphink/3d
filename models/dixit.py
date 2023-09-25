@@ -1,13 +1,7 @@
-# from attrdict import AttrDict
 from ocp_vscode import show
 from sphlib import align
 
-from build123d import (
-    Axis,
-    Box,
-    chamfer,
-    fillet,
-)
+from build123d import Axis, Box, chamfer, fillet
 
 
 X, Y, Z = 0, 1, 2
@@ -69,7 +63,6 @@ chamfer_edges += module3.edges().group_by(Axis.Z)[-9].group_by(Axis.X)[6]
 chamfer_edges += module3.edges().group_by(Axis.Z)[-9].group_by(Axis.X)[7]
 
 module3 = chamfer(chamfer_edges, 1)
-
 
 show(module, module2, module3)
 
