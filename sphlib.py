@@ -127,6 +127,10 @@ def align(
 
         if axis in centerToBegin or axis in center or axis in centerToEnd:
             from_ = cObj[i]
+            if axis in centerToBegin:
+                deltas[i] = margins[i] + margin
+            elif axis in centerToEnd:
+                deltas[i] = -margins[i] - margin
 
         if axis in endToBegin or axis in endToCenter or axis in end:
             from_ = eObj[i]
