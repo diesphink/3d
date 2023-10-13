@@ -6,7 +6,7 @@ This code is licensed under MIT license (see LICENSE for details)
 from build123d import Vector
 
 
-def vector_to_array(vector):
+def _vector_to_array(vector):
     return [vector.X, vector.Y, vector.Z]
 
 
@@ -95,9 +95,9 @@ def align(
     """
 
     # pontos do objeto (begin, end e center)
-    bObj = vector_to_array(object.bounding_box().min)
-    eObj = vector_to_array(object.bounding_box().max)
-    cObj = vector_to_array((object.bounding_box().min + object.bounding_box().max) / 2)
+    bObj = _vector_to_array(object.bounding_box().min)
+    eObj = _vector_to_array(object.bounding_box().max)
+    cObj = _vector_to_array((object.bounding_box().min + object.bounding_box().max) / 2)
 
     # Pontos do ref (begin, end e center)
     if ref is None:
@@ -105,9 +105,9 @@ def align(
     elif type(ref) is list:
         bRef = eRef = cRef = ref
     else:
-        bRef = vector_to_array(ref.bounding_box().min)
-        eRef = vector_to_array(ref.bounding_box().max)
-        cRef = vector_to_array((ref.bounding_box().min + ref.bounding_box().max) / 2)
+        bRef = _vector_to_array(ref.bounding_box().min)
+        eRef = _vector_to_array(ref.bounding_box().max)
+        cRef = _vector_to_array((ref.bounding_box().min + ref.bounding_box().max) / 2)
 
     deltas = [0, 0, 0]
 
