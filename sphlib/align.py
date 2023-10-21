@@ -10,12 +10,6 @@ def _vector_to_array(vector):
     return [vector.X, vector.Y, vector.Z]
 
 
-class Dimensions(object):
-    def __getattr__(self, attr):
-        setattr(self, attr, Dimensions())
-        return getattr(self, attr)
-
-
 def align(
     object,
     ref=None,
