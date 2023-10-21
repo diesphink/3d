@@ -66,6 +66,10 @@ generate_bases() {
         filename="${filename}_tab"
     fi
 
+    if [ "$scad_file" = "Lite Bins - kennetek.scad" ]; then
+        filename="${filename}_lite"
+    fi
+
     # Check if there's argument on $1
     if [ -n "$1" ]; then
         filename="${filename}_${1}"
@@ -108,6 +112,14 @@ project() {
     project_name="$1"
 }
 
+project blanks
+generate_bases -x 2 -y 3 -z 5 --divy 0 --divx 0
+
+project batteries
+generate_bases -x 2 -y 3 -z 4 --divy 3 --lite "assorted"
+generate_bases -x 2 -y 3 -z 5 "charger"
+
+
 project screws
 
 # generate_bases -x 4 -y 2 -z 6 --divx 2 --divy 2
@@ -121,8 +133,11 @@ project screws
 #generate_bases -x 3 -y 2 -z 2 --divx 5 --divy 2 --tab --scoop 
 #generate_bases -x 3 -y 2 -z 4 --divx 6 --divy 2 --tab --scoop
 
-# m3x16 + m3x12
-generate_bases -x 2 -y 1 -z 4 --divx 2 --lite --tab "m316+m312"
+# m3x16,12
+generate_bases -x 2 -y 1 -z 4 --divx 2 --lite --tab "m316,12"
+
+# m3x10,8,6
+generate_bases -x 2 -y 1 -z 4 --divx 3 --lite --tab "m3x10,8,6"
 
 # m3x20
 generate_bases -x 1 -y 2 -z 6 --divy 2 --tab --scoop "m320"
@@ -132,6 +147,11 @@ generate_bases -x 1 -y 1 -z 6 "m3nuts"
 
 # m3 assorted
 generate_bases -x 2 -y 1 -z 2 --divx 3 --lite "m3assorted" 
+
+# m3 tnuts,washes
+generate_bases -x 2 -y 1 -z 2 --divx 2 --lite "tnuts,washes" 
+
+
 
 # m1.6
 # generate_bases -x "2.5" -y 1 -z 3 --divx 6 --divy 1 --tab --scoop "m1.6"
