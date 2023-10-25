@@ -112,12 +112,10 @@ project() {
     project_name="$1"
 }
 
-project blanks
-generate_bases -x 2 -y 3 -z 5 --divy 0 --divx 0
-
 project batteries
+generate_bases -x 2 -y 1 -z 2 --divx 2 --lite "lower"
 generate_bases -x 2 -y 3 -z 4 --divy 3 --lite "assorted"
-generate_bases -x 2 -y 3 -z 5 "charger"
+
 
 
 project screws
