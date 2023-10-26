@@ -1,0 +1,12 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "con": "1",
+            "h": "10",
+            "r1": "17",
+            "r4": "3",
+            "s": "6"
+        }
+    }
+}
