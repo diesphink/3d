@@ -16,7 +16,7 @@ from build123d import (
 # === Dimensions
 X, Y, Z = 0, 1, 2
 d = Dimensions()
-d.magnet.diameter = 10.25
+d.magnet.diameter = 10
 d.magnet.deep = 2.2
 d.magnet.distance = [33.5, 56.236]
 d.magnet.separation = 0.7
@@ -25,7 +25,7 @@ d.box = [72, 92, 102.5]
 
 d.border = 3
 
-d.tape = [13, d.magnet.diameter + d.magnet.distance[Y], 1.2]
+d.tape = [13, d.magnet.diameter + d.magnet.distance[Y], 0.6]
 
 d.strip = [
     d.tape[X] + d.border * 2,
@@ -51,3 +51,5 @@ base -= align(extrude(sketch, d.magnet.deep), ref=base, end="z", center="xy")
 base -= align(Box(*d.tape), ref=base, end="z", center="xy")
 
 show(base)
+base.export_stl("library/tea_bag_holder.stl")
+base.export_step("library/tea_bag_holder.step")
