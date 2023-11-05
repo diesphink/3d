@@ -1,0 +1,20 @@
+from ocp_vscode import show
+from gridfinity.gridfinity_scoops import GridfinityBox
+from sphlib import align, Dimensions, Slot, SlotPosition, SlotType
+import gridfinity as gf
+
+from build123d import Axis, Box
+
+# === Dimensions
+X, Y, Z = 0, 1, 2
+d = Dimensions()
+d.wallet = [110, 14, 30]
+
+
+base = gf.GridfinityFilled(x_grid_number=3, y_grid_number=1, unit_height=5, disable_mholes=True)
+slot = Box(*d.wallet).rotate(Axis.X, 15)
+slot = Slot(slot, SlotPosition.Y_AXIS_MIN, 25, SlotType.SPHERE)
+base -= align(slot, ref=base, center="xy", end="z", margin=0)
+show(base)
+base.export_stl("library/gridfinity/wallet.stl")
+base.export_step("library/gridfinity/wallet.step")
