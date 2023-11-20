@@ -8,10 +8,10 @@ from build123d import Axis, Box
 # === Dimensions
 X, Y, Z = 0, 1, 2
 d = Dimensions()
-d.wallet = [110, 14, 30]
+d.wallet = [110, 14, 52]
 
 
-base = gf.GridfinityFilled(x_grid_number=3, y_grid_number=1, unit_height=5, disable_mholes=True)
+base = gf.GridfinityFilled(x_grid_number=3, y_grid_number=1, unit_height=8, disable_mholes=True)
 slot = Box(*d.wallet).rotate(Axis.X, 15)
 slot = Slot(slot, SlotPosition.Y_AXIS_MIN, 25, SlotType.SPHERE)
 base -= align(slot, ref=base, center="xy", end="z", margin=0)
