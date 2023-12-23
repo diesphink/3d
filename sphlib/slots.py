@@ -35,6 +35,14 @@ class FingerSlot(BasePartObject):
 
         super().__init__(part=part, rotation=rotation, align=align, mode=mode)
 
+    @property
+    def size(self):
+        return self._size
+
+    @size.setter
+    def size(self, value):
+        self._size = value
+
 
 class Slot(BasePartObject):
     def __init__(
