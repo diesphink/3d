@@ -10,8 +10,10 @@ from build123d import (
     BuildPart,
     BuildSketch,
     Circle,
+    ExportSVG,
     Mode,
     Rectangle,
+    Shape,
     chamfer,
     extrude,
     fillet,
@@ -61,3 +63,30 @@ show(base)
 
 base.export_stl("library/gridfinity/gf_cable_tester1.stl")
 base.export_step("library/gridfinity/gf_cable_tester1.step")
+
+
+# logo.export_step("logo.step")
+def add_svg_shape(svg: ExportSVG, shape: Shape, color: tuple[float, float, float]):
+    global counter
+    try:
+        counter += 1
+    except:
+        counter = 1
+
+    visible, _hidden = shape.project_to_viewport((-5, 1, 10), viewport_up=(0, 1, 0), look_at=(0, 0, 0))
+    if color is not None:
+        svg.add_layer(str(counter), fill_color=color, line_weight=1)
+    else:
+        svg.add_layer(str(counter), line_weight=1)
+    svg.add_shape(visible, layer=str(counter))
+
+
+svg = ExportSVG(scale=1)
+# add_svg_shape(svg, base, None)
+svg.add_layer("1", fill_color=(255, 255, 255), line_weight=0.1)
+visible, hidden = base.project_to_viewport((0, 20, 20))
+svg.add_shape(visible, layer="1")
+# add_svg_shape(svg, Compound(children=[one.line, extension_lines.line]), None)
+# add_svg_shape(svg, Compound(children=[two.sketch, build.sketch]), (170, 204, 255))
+# add_svg_shape(svg, three_d.part, (85, 153, 255))
+svg.write("teste.svg")
