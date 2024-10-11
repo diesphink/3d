@@ -1,10 +1,13 @@
 {
     "OcpCadViewer.view.ortho": false,
     "OcpCadViewer.view.dark": true,
-    "ruff.args": ["--ignore E501"],
+    "ruff.args": [
+        "--ignore E501"
+    ],
     "terminal.integrated.env.linux": {
         "PYTHONPATH": "${workspaceFolder}"
     },
     "editor.formatOnSave": true,
-    "nixEnvSelector.suggestion": false
+    "nixEnvSelector.suggestion": false,
+    "jupyter.notebookFileRoot": "${workspaceFolder}"
 }

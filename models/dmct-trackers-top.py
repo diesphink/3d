@@ -1,5 +1,4 @@
 # %%
-# %cd /home/sphink/devel/3d
 from ocp_vscode import *
 from sphlib import align, Dimensions, Slot, SlotPosition, SlotType
 import gridfinity as gf
