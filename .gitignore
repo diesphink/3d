@@ -2,3 +2,7 @@
 /__pycache__/
 *.pyc
 /.ocp_vscode
+.direnv
+.vscode/data
+.vscode/extensions
+.venv
