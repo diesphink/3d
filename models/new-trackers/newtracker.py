@@ -135,6 +135,20 @@ def make_field_icon(icon, field):
     )
 
 
+def make_field(length=20, ratio=0.5):
+    field = Box(length=length - 4 * d.border, width=(length - 4 * d.border) * ratio, height=5)
+    field = chamfer(
+        field.edges().filter_by(Axis.Z), length=rescale_chamfer(rescale_chamfer(d.external_fillet, d.border), d.border)
+    )
+    return field
+
+
+def make_small_icon_field(icon, length=20, ratio=0.5):
+    field = make_field(length, ratio)
+    field -= make_field_icon(icon, field)
+    return field
+
+
 def make_pc_tracker(
     player_text,
     dm_text,
@@ -152,18 +166,15 @@ def make_pc_tracker(
 
     base2 = gen_base(length, dm_size)
 
-    field = Box(length=20 - 4 * d.border, width=(20 - 4 * d.border) / 2, height=5)
-    field = chamfer(
-        field.edges().filter_by(Axis.Z), length=rescale_chamfer(rescale_chamfer(d.external_fillet, d.border), d.border)
+    field1 = align(
+        make_small_icon_field("\uf132"), ref=base2, end="z", center="x", begin="y", margins=[0, d.border * 2, 0]
     )
-    field1 = align(field, ref=base2, end="z", center="x", begin="y", margins=[0, d.border * 2, 0])
-    field1 -= make_field_icon("\uf132", field1)
-
-    field2 = align(field, ref=field1, end="z", center="x", beginToEnd="y", margins=[0, d.border, 0])
-    field2 -= make_field_icon("\uf004", field2)
-
-    field3 = align(field, ref=field2, end="z", center="x", beginToEnd="y", margins=[0, d.border, 0])
-    field3 -= make_field_icon("󰈈", field3)
+    field2 = align(
+        make_small_icon_field("\uf004"), ref=field1, end="z", center="x", beginToEnd="y", margins=[0, d.border, 0]
+    )
+    field3 = align(
+        make_small_icon_field("󰈈"), ref=field2, end="z", center="x", beginToEnd="y", margins=[0, d.border, 0]
+    )
 
     text = align(
         extrude(Text(dm_text, font="Impact", font_size=dm_font_size, font_style=FontStyle.BOLD), amount=5),
@@ -184,9 +195,46 @@ def make_pc_tracker(
     return tracker
 
 
-show(make_pc_tracker("BUGUBI", "BGB", player_size=70))
-show(make_pc_tracker("FARPA", "FRP", player_size=60))
-show(make_pc_tracker("LANZARA", "LNZ", player_size=80))
-show(make_pc_tracker("PIP", "PIP", player_size=38))
-show(make_pc_tracker("CORVIN", "CRV", player_size=70))
-show(make_pc_tracker("GOODORIAN", "GOD", player_size=100))
+def make_dm_tracker(length=20, dm_size=32, player_size=33, icon="󰀦", player_icon_size=12, font="Ubuntu Nerd Font"):
+    player_size = (length - d.border * 4) * 2 + d.border * 5
+
+    base1 = gen_base(length=length, width=player_size)
+    base1 += align(make_field(ratio=1), ref=base1, end="z", center="x", begin="y", margins=[0, d.border * 2, 0])
+    ref = align(make_field(ratio=1), ref=base1, end="zy", center="x", margins=[0, d.border * 2, 0])
+    # base1 += ref
+    base1 += align(
+        extrude(Text(icon, font=font, font_size=player_icon_size, font_style=FontStyle.BOLD), amount=5),
+        ref=ref,
+        center="xy",
+        end="z",
+        margins=[0, d.border * 2, 0],
+    )
+
+    base2 = add_hinge(base1, type=HingeType.FEMALE)
+    base1 = add_hinge(base1, type=HingeType.MALE)
+
+    tracker = position_bases(base1, base2)
+
+    export_stl(tracker, f"library/trackers/{icon}.stl")
+    print(f"library/trackers/{icon}.stl exported")
+    return tracker
+
+
+# icons = ["", "󱢾", "󰓥", "󰈈", "", "", "", "󰱩", "", "󰱯", "", "", "󰀦"]
+# icons = ["󱢾"]
+# for icon in icons:
+#     show(make_dm_tracker(icon=icon)
+
+# icons = ["1", "2", "3", "4", "5", "6"]
+icons = ["A", "B", "C"]
+
+for icon in icons:
+    show(make_dm_tracker(icon=icon, font="Cambria"))
+
+
+# show(make_pc_tracker("BUGUBI", "BGB", player_size=70))
+# show(make_pc_tracker("FARPA", "FRP", player_size=60))
+# show(make_pc_tracker("LANZARA", "LNZ", player_size=80))
+# show(make_pc_tracker("PIP", "PIP", player_size=38))
+# show(make_pc_tracker("CORVIN", "CRV", player_size=70))
+# show(make_pc_tracker("GOODORIAN", "GOD", player_size=100))
