@@ -236,5 +236,5 @@ for icon in icons:
 # show(make_pc_tracker("FARPA", "FRP", player_size=60))
 # show(make_pc_tracker("LANZARA", "LNZ", player_size=80))
 # show(make_pc_tracker("PIP", "PIP", player_size=38))
-# show(make_pc_tracker("CORVIN", "CRV", player_size=70))
+show(make_pc_tracker("KHORVIN", "KRV", player_size=80))
 # show(make_pc_tracker("GOODORIAN", "GOD", player_size=100))
