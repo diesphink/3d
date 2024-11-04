@@ -1,15 +1,18 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.3/.schema/devbox.schema.json",
   "packages": {
-    "python311Full":               "latest",
-    "python311Packages.pip":       "latest",
+    "python311Full": "latest",
+    "python311Packages.pip": "latest",
     "python311Packages.ipykernel": "latest",
     "libGL": {
       "version": "latest",
-      "outputs": ["out", "dev"]
+      "outputs": [
+        "out",
+        "dev"
+      ]
     },
     "xorg.libX11": "latest",
-    "expat":       "latest"
+    "expat": "latest"
   },
   "shell": {
     "init_hook": [
@@ -22,7 +25,7 @@
         "python -m pip install git+https://github.com/gumyr/build123d.git",
         "env -u CONDA_PREFIX_1  python -m pip install git+https://github.com/cadquery/cadquery.git",
         "python -m pip install --upgrade 'ocp_tessellate>=3.0.4,<3.1.0'",
-        "python -m pip install ocp_vscode==2.4.1"
+        "python -m pip install ocp_vscode==2.5.3"
       ]
     }
   }
