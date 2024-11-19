@@ -24,8 +24,8 @@
         "[[ -e .venv ]] && . .venv/bin/activate",
         "python -m pip install git+https://github.com/gumyr/build123d.git",
         "env -u CONDA_PREFIX_1  python -m pip install git+https://github.com/cadquery/cadquery.git",
-        "python -m pip install --upgrade 'ocp_tessellate>=3.0.4,<3.1.0'",
-        "python -m pip install ocp_vscode==2.5.3"
+        "python -m pip install --upgrade 'ocp_tessellate>=3.0.7,<3.1.0'",
+        "python -m pip install ocp_vscode==2.6.1"
       ]
     }
   }
