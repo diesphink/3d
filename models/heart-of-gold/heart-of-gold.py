@@ -19,7 +19,7 @@ d.u = 44.45  # 1.75"
 d.space = 15.875  # 0.625"
 d.margins = 6.35  # 0.25"
 
-d.placa = [140, d.u, 3]
+d.placa = [139, d.u, 3]
 d.placa_maior = [150, d.u, 3]
 
 
