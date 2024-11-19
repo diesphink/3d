@@ -176,7 +176,9 @@ def distribute(
             for i, obj in enumerate(objs):
                 if len(deltas) <= i:
                     deltas.append([0, 0, 0])
-                deltas[i][axis] = ranges[0][mode] + i * space_between - metrics[i][mode]
+                deltas[i][axis] = acc - metrics[i][mode]
+                acc += metrics[i][GAP] + space_between
+                # deltas[i][axis] = ranges[0][mode] + i * space_between - metrics[i][mode]
 
         else:
             space_between = (ranges[1][mode] - ranges[0][mode]) / (len(objs) - 1)
