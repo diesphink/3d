@@ -189,8 +189,9 @@ def make_pc_tracker(
     base2 = add_hinge(base2, type=HingeType.FEMALE)
 
     tracker = position_bases(base1, base2)
+    show(tracker)
 
-    export_stl(tracker, f"library/trackers/{player_text}.stl")
+    export_stl(Compound(tracker), f"library/trackers/{player_text}.stl")
     print(f"library/trackers/{player_text}.stl exported")
     return tracker
 
@@ -215,7 +216,7 @@ def make_dm_tracker(length=20, dm_size=32, player_size=33, icon="󰀦", player_i
 
     tracker = position_bases(base1, base2)
 
-    export_stl(tracker, f"library/trackers/{icon}.stl")
+    export_stl(Compound(tracker), f"library/trackers/{icon}.stl")
     print(f"library/trackers/{icon}.stl exported")
     return tracker
 
@@ -236,5 +237,6 @@ for icon in icons:
 # show(make_pc_tracker("FARPA", "FRP", player_size=60))
 # show(make_pc_tracker("LANZARA", "LNZ", player_size=80))
 # show(make_pc_tracker("PIP", "PIP", player_size=38))
-show(make_pc_tracker("KHORVIN", "KRV", player_size=80))
+show(make_pc_tracker("COXIBE", "CXB", player_size=70))
+show(make_pc_tracker("KOSHIBE", "KSB", player_size=80))
 # show(make_pc_tracker("GOODORIAN", "GOD", player_size=100))
