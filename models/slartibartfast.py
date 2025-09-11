@@ -1,3 +1,4 @@
+# %%
 from ocp_vscode import show
 from honeycomb import HoneycombGrid
 from sphlib import Dimensions, align

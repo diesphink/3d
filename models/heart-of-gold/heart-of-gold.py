@@ -85,7 +85,7 @@ for i in range(3):
 for pos_z in furos:
     suporte -= align(furo, ref=suporte, center="xy", centerToEnd="z", margins=[0, 0, pos_z])
 
-# show(suporte)
+show(suporte)
 
 export_stl(suporte, f"library/heartofgold/suporte.stl")
 
