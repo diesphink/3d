@@ -10,16 +10,20 @@ from sphlib.slots import SlotPosition, SlotType
 # === Dimensions
 X, Y, Z = 0, 1, 2
 d = Dimensions()
-d.bloco1 = [30.2, 37.7, 5]  # 56
-d.m3_bolt = 3.3 / 2
+d.bloco1 = [30.2, 37.7, 56]  # 56
+d.m3_bolt = [3.5 / 2, 2.5 / 2, 20]
 d.m3_bolt_margins = [11, 5.7, 0]
 
-d.m3_nut_slot = [5.5, 5.5 / 2 + d.m3_bolt_margins[Y], 3.5]
-d.m3_nut_margins = [11, 0, 0.8]
+d.m3_nut_slot = [5.75, 5.75 / 2 + d.m3_bolt_margins[Y], 3]
+d.m3_nut_margins = [11, 0, 10]
+
+d.parafuso = 5.5 / 2
+
+d.bloco2 = [11, d.bloco1[Y], 20]
 
 bloco1 = Box(*d.bloco1)
 bloco1 -= align(
-    Cylinder(radius=d.m3_bolt, height=d.bloco1[Z] / 2),
+    Cylinder(radius=d.m3_bolt[X], height=d.m3_bolt[Z]),
     ref=bloco1,
     centerToBegin="xy",
     centerToEnd="",
@@ -27,7 +31,7 @@ bloco1 -= align(
     margins=d.m3_bolt_margins,
 )
 bloco1 -= align(
-    Cylinder(radius=d.m3_bolt, height=d.bloco1[Z] / 2),
+    Cylinder(radius=d.m3_bolt[X], height=d.m3_bolt[Z]),
     ref=bloco1,
     centerToBegin="y",
     centerToEnd="x",
@@ -35,7 +39,7 @@ bloco1 -= align(
     margins=d.m3_bolt_margins,
 )
 bloco1 -= align(
-    Cylinder(radius=d.m3_bolt, height=d.bloco1[Z] / 2),
+    Cylinder(radius=d.m3_bolt[X], height=d.m3_bolt[Z]),
     ref=bloco1,
     centerToBegin="x",
     centerToEnd="y",
@@ -43,7 +47,7 @@ bloco1 -= align(
     margins=d.m3_bolt_margins,
 )
 bloco1 -= align(
-    Cylinder(radius=d.m3_bolt, height=d.bloco1[Z] / 2),
+    Cylinder(radius=d.m3_bolt[X], height=d.m3_bolt[Z]),
     ref=bloco1,
     centerToBegin="",
     centerToEnd="xy",
@@ -84,56 +88,22 @@ bloco1 -= align(
     margins=d.m3_nut_margins,
 )
 
-show(bloco1)
-export_stl(bloco1, f"library/suporte_regua_mesa.stl")
+parafuso_madeira = Cylinder(radius=5.5 / 2, height=d.bloco1[Y])
+parafuso_madeira += align(
+    Cone(bottom_radius=10 / 2, top_radius=5.5 / 2, height=5),
+    ref=parafuso_madeira,
+    center="xy",
+    begin="z",
+)
+# show(parafuso_madeira)
 
-# %%
-
-d.bloco2 = [23, 85, 35]
-d.extra_margins_y = 5
-d.bloco1[Y] += 2 * d.extra_margins_y
-d.vao = [12, 4.3, d.bloco1[Z]]
-d.vao_margem = [5.5, 3, 0]
-
-d.distancia_entre_m3 = 28.7  # Com base nos centros
-
-
-d.parafuso_madeira = 5.5 / 2
-
-
-bloco1 = Box(*d.bloco1)
-# parafuso =
-
-bloco1 = fillet(bloco1.edges(), 1)
-show(bloco1)
+bloco1 -= align(parafuso_madeira.rotate(Axis.X, angle=270), ref=bloco1, begin="y", center="xz")
 
 bloco2 = Box(*d.bloco2)
-# parafuso =
+bloco2 -= align(parafuso_madeira.rotate(Axis.X, angle=270), ref=bloco1, begin="y", center="xz")
 
-bloco2 -= align(
-    Cylinder(radius=d.parafuso_madeira, height=d.bloco2[Z]),
-    ref=bloco2,
-    center="xz",
-    centerToEnd="y",
-    margins=[0, d.vao_margem[Y] + d.parafuso_madeira + d.extra_margins_y, 0],
-)
-bloco2 -= align(
-    Cylinder(radius=d.parafuso_madeira, height=d.bloco2[Z]),
-    ref=bloco2,
-    center="xz",
-    centerToBegin="y",
-    margins=[0, d.vao_margem[Y] + d.parafuso_madeira + d.extra_margins_y, 0],
-)
-bloco2 = chamfer(bloco2.edges().filter_by(GeomType.CIRCLE).group_by(Axis.Z)[-1], 3)
-show(bloco2)
-
-bloco2 = align(bloco2, ref=bloco1, center="yx", begin="z")
-
-bloco = bloco1 + bloco2
-
-m3 = Cylinder(radius=d.parafuso_m3, height=bloco.size().Z + 2)
+bloco = bloco1 + align(bloco2, ref=bloco1, begin="yz", endToBegin="x")
 
 
 show(bloco)
-
 export_stl(bloco, f"library/suporte_regua_mesa.stl")
