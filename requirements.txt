@@ -1,3 +1,8 @@
 build123d @ git+https://github.com/gumyr/build123d
 cqgridfinity
 cqkit
+
+typish
+multimethod
+nptyping
+

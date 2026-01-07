@@ -1,3 +1,4 @@
+# %%
 from ocp_vscode import show
 from gridfinity.gridfinity_scoops import GridfinityBox
 from sphlib import align, Dimensions, Slot, SlotPosition, SlotType
