@@ -1,8 +1,7 @@
 build123d @ git+https://github.com/gumyr/build123d
+cadquery @ git+https://github.com/cadquery/cadquery.git
+ocp_tessellate
+ocp_vscode
+
 cqgridfinity
 cqkit
-
-typish
-multimethod
-nptyping
-
