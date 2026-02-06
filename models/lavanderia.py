@@ -1,3 +1,4 @@
+# %%
 from ocp_vscode import show
 from sphlib import Dimensions, align
 
@@ -18,6 +19,46 @@ d.beckerp = 18
 d.becker.margin = 3
 d.becker.p = 18
 d.becker.g = 26
+
+# %%
+
+d.sup = [51, 51, 72]
+d.wall = 3
+d.parafuso.corpo = [3.5, 3.5, d.wall * 3]
+d.parafuso.cab = [7, 7, 2.5]
+
+base = Cylinder(radius=d.sup[X] / 2 + d.wall, height=d.sup[Z] + d.wall)
+hole = align(Cylinder(radius=d.sup[X] / 2, height=d.sup[Z]), ref=base, center="xy", end="z")
+base -= align(Box(d.sup[X] + 2 * d.wall, d.sup[Y] / 2 + d.wall, d.sup[Z] - d.wall), ref=base, center="x", end="yz")
+base += align(
+    Box(d.sup[X] + 2 * d.wall, d.sup[Y] / 2 + d.wall * 3, d.sup[Z] + d.wall),
+    ref=base,
+    center="x",
+    begin="zy",
+    margins=[0, -d.wall * 2, 0],
+)
+base -= hole
+
+parafuso = Cylinder(radius=d.parafuso.corpo[X] / 2, height=d.parafuso.corpo[Z])
+parafuso += align(
+    Cylinder(radius=d.parafuso.cab[X] / 2, height=d.parafuso.cab[Z]),
+    ref=parafuso,
+    center="xy",
+    begin="z",
+)
+base -= align(parafuso.rotate(Axis.X, 90), ref=base, center="x", begin="y", end="z", margins=[0, 0, d.wall])
+base -= align(
+    parafuso.rotate(Axis.X, 90),
+    ref=base,
+    center="x",
+    begin="y",
+    end="z",
+    margins=[0, 0, d.wall * 2 + d.parafuso.cab[X]],
+)
+# show(parafuso)
+show(base)
+
+# %%
 
 # === Base via sketch
 side = Plane.ZY * Polygon([(d.base_frente, 0), (0, 0), (0, d.base[Y]), (d.base[Z], d.base[Y])])
