@@ -3,7 +3,8 @@ _.python.venv = { path = ".venv", create = true }
 VSCODE_PROFILES = "common python"
 
 [tools]
-python = "3.13"
+python = "3.12"
+uv = "latest"
 
 [tasks.install]
 description = "Install dependencies"
