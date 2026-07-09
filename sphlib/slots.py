@@ -62,8 +62,8 @@ class Slot(BasePartObject):
         if positions == SlotPosition.X_AXIS or positions == SlotPosition.X_AXIS_MAX:
             slots.append(sph.align(slot, ref=shape, centerToEnd="x", end="z"))
         if positions == SlotPosition.Y_AXIS or positions == SlotPosition.Y_AXIS_MIN:
-            slots.append(sph.align(slot, ref=shape, centerToBegin="y", end="z"))
+            slots.append(sph.align(slot, ref=shape, centerToBegin="y", end="z", center="x"))
         if positions == SlotPosition.Y_AXIS or positions == SlotPosition.Y_AXIS_MAX:
-            slots.append(sph.align(slot, ref=shape, centerToEnd="y", end="z"))
+            slots.append(sph.align(slot, ref=shape, centerToEnd="y", end="z", center="x"))
 
         super().__init__(part=shape + slots, rotation=rotation, align=align, mode=mode)
