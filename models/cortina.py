@@ -1,15 +1,16 @@
 # %%
-from ocp_vscode import *
-from sphlib import align, Dimensions, distribute, rescale_chamfer
-from enum import Enum
+from ocp_vscode import show
+from sphlib import align
 
-from build123d import *
+from build123d import Cylinder, export_stl, split, Axis, Plane, Keep
+
+from types import SimpleNamespace
 
 # === Dimensions
 X, Y, Z = 0, 1, 2
 
 
-d = Dimensions()
+d = SimpleNamespace()
 d.tubo = [7, 162]
 # d.bd = [59.3, 31.3, 6]
 # d.folga = 0.2
@@ -23,7 +24,10 @@ d.tubo = [7, 162]
 
 tubo = Cylinder(radius=17.5 / 2, height=200)
 tubo -= align(
-    Cylinder(radius=d.tubo[X] / 2, height=d.tubo[Y] + (200 - d.tubo[Y]) / 2), ref=tubo, center="xy", begin="z"
+    Cylinder(radius=d.tubo[X] / 2, height=d.tubo[Y] + (200 - d.tubo[Y]) / 2),
+    ref=tubo,
+    center="xy",
+    begin="z",
 )
 tubo = tubo.rotate(Axis.X, 90)
 tubo = split(tubo, bisect_by=Plane.XY.offset(-7), keep=Keep.TOP)
